@@ -1,3 +1,4 @@
+
 const CONFIG_FILE = "config.json";
 "use strict";
 const fs = require("fs/promises");
@@ -156,3 +157,4 @@ async function getConfig() {
     getConfig
   };
   
+
