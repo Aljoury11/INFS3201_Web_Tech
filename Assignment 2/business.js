@@ -1,3 +1,4 @@
+// Business Logic Layer - INFS3201 Assignment 2
 "use strict";
 
 const persistence = require("./persistence");
@@ -135,4 +136,5 @@ function computeShiftDuration(startTime, endTime) {
     assignShift,
     computeShiftDuration
   };
+
   
