@@ -1,53 +1,18 @@
-# Employee Scheduling System – INFS3201 Assignment 2
+# INFS3201 Assignment 3
 
-##  Overview
-This project is a refactored version of the Employee Scheduling System developed for INFS3201 – Web Technologies II.  
-The application allows users to manage employees, assign shifts, and enforce scheduling constraints.
+Employee Scheduling Web Application
 
-The system follows a **3-tier architecture** to ensure proper separation of concerns:
+## Technologies
 
-- Presentation Layer
-- Business Logic Layer
-- Persistence Layer
+- ExpressJS
+- Handlebars
+- MongoDB
 
----
+## Database
 
-##  Architecture
+Database name: infs3201_winter2026
 
-### Presentation Layer
-Handles all console interactions with the user such as menus, prompts, and formatted outputs.
+## How to run
 
-### Business Logic Layer
-Processes business rules including employee scheduling validation and shift duration calculations.
-
-### Persistence Layer
-Manages file storage and retrieval using JSON files and implements CRUD operations.
-
----
-
-##  Features
-
-- Employee management  
-- Shift assignment  
-- Maximum daily hours validation using `config.json`  
-- Shift duration calculation  
-- Layered architecture implementation  
-- JSDoc documented functions  
-
----
-
-##  Technologies Used
-
-- Node.js (CommonJS modules)
-- JavaScript
-- JSON for data storage
-- GitHub for version control
-
----
-
-##  How to Run the Project
-
-1. Install Node.js  
-2. Navigate to the project folder  
-3. Install dependencies (if applicable):
-
+npm install
+npm start
