@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Employee Directory</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <main class="page-wrapper">
+
+    <header>
+      <h2>Employee List</h2>
+    </header>
+
+    <section class="employee-list">
+      <ul class="employee-links">
+        {{#each employees}}
+          <li class="employee-item">
+            <a href="/employees/{{employeeId}}">
+              {{name}}
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    </section>
+
+  </main>
+
+</body>
+</html>

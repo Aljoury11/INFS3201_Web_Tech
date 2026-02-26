@@ -1,0 +1,121 @@
+/* ===== Page base ===== */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f7fb;
+  color: #222;
+}
+
+main, .page-wrapper {
+  max-width: 900px;
+  margin: 30px auto;
+  background: #ffffff;
+  padding: 18px 22px;
+  border: 1px solid #dde5f0;
+  border-radius: 8px;
+}
+
+/* ===== Titles ===== */
+h1, h2 {
+  margin: 0 0 12px 0;
+  color: #2a5d9f;
+  font-weight: 700;
+}
+
+p {
+  margin: 10px 0;
+}
+
+/* ===== Links ===== */
+a {
+  color: #2a5d9f;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Employee list (home page) ===== */
+ul {
+  margin: 10px 0 0 18px;
+  padding: 0;
+}
+
+li {
+  margin: 6px 0;
+}
+
+/* ===== Buttons ===== */
+button {
+  border: none;
+  padding: 9px 14px;
+  border-radius: 6px;
+  background: #2a5d9f;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background: #234d82;
+}
+
+/* ===== Form (edit page) ===== */
+label {
+  display: inline-block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+input[type="text"] {
+  width: 100%;
+  max-width: 360px;
+  padding: 8px 10px;
+  border: 1px solid #cfd8e3;
+  border-radius: 6px;
+  outline: none;
+}
+
+input[type="text"]:focus {
+  border-color: #2a5d9f;
+}
+
+/* ===== Table (employee page shifts) ===== */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 15px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+th {
+  background: #2a5d9f;
+  color: #fff;
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #1e3f69;
+}
+
+td {
+  padding: 9px 10px;
+  border-bottom: 1px solid #e6edf7;
+}
+
+tr:nth-child(even) {
+  background: #f4f7fb;
+}
+
+tr:hover {
+  background: #e6eef9;
+}
+
+/* Highlight morning shifts */
+.morning {
+  background: #fff3a0 !important;
+  font-weight: 700;
+}
