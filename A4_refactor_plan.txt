@@ -1,0 +1,41 @@
+INFS3201 Assignment 4 – Refactor Plan
+
+1. Collections that will change
+
+employees
+- remove employeeId
+- use MongoDB _id as the identifier
+
+shifts
+- remove shiftId
+- use MongoDB _id
+- add an employees array to store employee ObjectIds
+
+assignments
+- this collection will be removed
+- shift documents will store employee assignments
+
+2. Functions that will change
+
+Employee functions
+- update code that searches using employeeId
+- replace with MongoDB _id
+
+Shift functions
+- update code that searches using shiftId
+- replace with MongoDB _id
+
+Assignment functions
+- remove logic using assignments collection
+- update shifts.employees array instead
+
+3. Business logic changes
+
+- assigning an employee will update shifts.employees
+- removing an employee will remove the ObjectId from the array
+- employee and shift validation must remain
+
+4. Important restrictions
+
+- existing features from Assignment 3 must still work
+- array callback functions (.map, .filter, .reduce) are not allowed
