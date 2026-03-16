@@ -1,0 +1,4 @@
+{
+  "maxDailyHours": 9,
+  "mongoUri": "mongodb://60106404_db_user:Lolwa12345@ac-eh5hzhc-shard-00-00.4q1agoh.mongodb.net:27017,ac-eh5hzhc-shard-00-01.4q1agoh.mongodb.net:27017,ac-eh5hzhc-shard-00-02.4q1agoh.mongodb.net:27017/infs3201_winter2026?ssl=true&authSource=admin&retryWrites=true&w=majority&appName=Cluster0"
+}
