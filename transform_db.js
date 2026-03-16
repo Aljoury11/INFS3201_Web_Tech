@@ -14,7 +14,7 @@ async function run() {
     const employees = db.collection("employees");
     const assignments = db.collection("assignments");
 
-    // Step 1
+    // Step 1: add employees array
     await shifts.updateMany(
         { employees: { $exists: false } },
         { $set: { employees: [] } }
@@ -22,7 +22,7 @@ async function run() {
 
     console.log("Step 1 finished");
 
-    // Step 2
+    // Step 2: move assignments into shifts.employees
     const allAssignments = await assignments.find().toArray();
 
     let i = 0;
@@ -48,6 +48,21 @@ async function run() {
     }
 
     console.log("Step 2 finished");
+
+    // Step 3: remove old fields and old collection
+    await employees.updateMany(
+        {},
+        { $unset: { employeeId: "" } }
+    );
+
+    await shifts.updateMany(
+        {},
+        { $unset: { shiftId: "" } }
+    );
+
+    await assignments.drop();
+
+    console.log("Step 3 finished");
 
     await client.close();
 }
