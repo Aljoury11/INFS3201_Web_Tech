@@ -13,7 +13,7 @@
 
     <form
       method="post"
-      action="/employees/{{employee.employeeId}}/edit"
+      action="/employees/{{employee._id}}/edit"
       class="employee-form"
     >
 
@@ -46,7 +46,7 @@
         <button type="submit">Update Employee</button>
         <a
           class="cancel-link"
-          href="/employees/{{employee.employeeId}}"
+          href="/employees/{{employee._id}}"
         >
           Cancel
         </a>
