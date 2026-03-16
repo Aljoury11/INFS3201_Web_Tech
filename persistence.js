@@ -1,7 +1,7 @@
 "use strict";
 
 const fs = require("fs/promises");
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 
 const CONFIG_FILE = "config.json";
 const DB_NAME = "infs3201_winter2026";
@@ -46,7 +46,7 @@ async function runWithDb(action) {
 
 /**
  * Get all employees
- * @returns {Promise<Array<{ employeeId:string, name:string, phone:string }>>}
+ * @returns {Promise<Array<any>>}
  */
 async function getAllEmployees() {
   return await runWithDb(async function (db) {
@@ -58,13 +58,13 @@ async function getAllEmployees() {
 /**
  * Find one employee by id
  * @param {string} employeeId
- * @returns {Promise<{ employeeId:string, name:string, phone:string }|undefined>}
+ * @returns {Promise<any|undefined>}
  */
 async function findEmployee(employeeId) {
   return await runWithDb(async function (db) {
     const result = await db
       .collection("employees")
-      .findOne({ employeeId: employeeId });
+      .findOne({ _id: new ObjectId(employeeId) });
 
     if (result) {
       return result;
@@ -76,30 +76,13 @@ async function findEmployee(employeeId) {
 /**
  * Get shifts assigned to an employee
  * @param {string} employeeId
- * @returns {Promise<Array<{shiftId:string,date:string,startTime:string,endTime:string}>>}
+ * @returns {Promise<Array<any>>}
  */
 async function getEmployeeShifts(employeeId) {
   return await runWithDb(async function (db) {
-    const assignments = await db
-      .collection("assignments")
-      .find({ employeeId: employeeId })
-      .toArray();
-
-    const shiftIds = [];
-    let index = 0;
-
-    while (index < assignments.length) {
-      shiftIds.push(assignments[index].shiftId);
-      index++;
-    }
-
-    if (shiftIds.length === 0) {
-      return [];
-    }
-
     const shifts = await db
       .collection("shifts")
-      .find({ shiftId: { $in: shiftIds } })
+      .find({ employees: new ObjectId(employeeId) })
       .toArray();
 
     return shifts;
@@ -116,7 +99,7 @@ async function getEmployeeShifts(employeeId) {
 async function updateEmployee(employeeId, name, phone) {
   await runWithDb(async function (db) {
     await db.collection("employees").updateOne(
-      { employeeId: employeeId },
+      { _id: new ObjectId(employeeId) },
       { $set: { name: name, phone: phone } }
     );
   });
