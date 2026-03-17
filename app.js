@@ -1,5 +1,5 @@
 "use strict";
-
+const fs = require("fs/promises");
 const express = require("express");
 const path = require("path");
 const hbs = require("express-handlebars");
@@ -250,7 +250,22 @@ app.get("/employees/:id", async function (req, res) {
 
   res.render("employee", { employee: emp, shifts: shifts });
 });
+/**
+ * GET /employees/:id/photo
+ * Send employee photo only to logged in users
+ */
+app.get("/employees/:id/photo", async function (req, res) {
+  const employeeId = req.params.id;
+  const photoPath = path.join(__dirname, "employee_photos", employeeId + ".jpg");
 
+  try {
+    await fs.access(photoPath);
+    res.sendFile(photoPath);
+  }
+  catch (error) {
+    res.status(404).send("Photo not found");
+  }
+});
 /**
  * GET /employees/:id/edit
  * Show edit form (pre-filled).
