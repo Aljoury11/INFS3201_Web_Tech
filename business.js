@@ -11,7 +11,7 @@ async function listEmployees() {
 }
 
 /**
- * Return a single employee using the employeeId.
+ * Return a single employee using the MongoDB _id.
  * @param {string} employeeId
  */
 async function getEmployee(employeeId) {
