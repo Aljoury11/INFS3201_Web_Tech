@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+  <main class="page-wrapper">
+    <h2>Login</h2>
+
+    {{#if message}}
+      <p>{{message}}</p>
+    {{/if}}
+
+    <form method="post" action="/login">
+      <p>
+        <label for="usernameField">Username</label>
+        <input id="usernameField" type="text" name="username">
+      </p>
+
+      <p>
+        <label for="passwordField">Password</label>
+        <input id="passwordField" type="password" name="password">
+      </p>
+
+      <p>
+        <button type="submit">Login</button>
+      </p>
+    </form>
+  </main>
+
+</body>
+</html>
