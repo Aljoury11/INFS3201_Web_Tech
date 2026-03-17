@@ -22,6 +22,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 /**
+ * GET /login
+ * Show login page
+ */
+app.get("/login", function (req, res) {
+  res.render("login", { message: "" });
+});
+
+/**
  * GET /
  * Home page: show employees list.
  */
