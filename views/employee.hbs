@@ -10,6 +10,10 @@
   <p><strong>ID:</strong> {{employee._id}}</p>
   <p><strong>Phone:</strong> {{employee.phone}}</p>
 
+  <p>
+    <img src="/employees/{{employee._id}}/photo" alt="Employee photo" width="200">
+  </p>
+
   <p><a href="/employees/{{employee._id}}/edit">Edit Details</a></p>
 
   <h2>Shifts</h2>
@@ -17,20 +21,25 @@
   <table>
     <thead>
       <tr>
-        <th>Date</th><th>Start</th><th>End</th>
+        <th>Date</th>
+        <th>Start</th>
+        <th>End</th>
       </tr>
     </thead>
     <tbody>
       {{#each shifts}}
         <tr>
-          <td>{{this.date}}</td>
-          <td class="{{#if this.isMorning}}morning{{/if}}">{{this.startTime}}</td>
-          <td>{{this.endTime}}</td>
+          <td>{{date}}</td>
+          <td class="{{#if isMorning}}morning{{/if}}">{{startTime}}</td>
+          <td>{{endTime}}</td>
         </tr>
       {{/each}}
     </tbody>
   </table>
 
   <p><a href="/">Back</a></p>
+  <div style="text-align:right;">
+    <a href="/logout">Logout</a>
+</div>
 </body>
 </html>
