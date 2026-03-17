@@ -69,6 +69,38 @@ function readCookies(req) {
 }
 
 /**
+ * Write one security log entry
+ * @param {any} req
+ * @returns {Promise<void>}
+ */
+async function securityLogMiddleware(req, res, next) {
+  let usernameValue = "unknown";
+
+  const cookies = readCookies(req);
+  const sessionId = cookies.sessionId;
+
+  if (sessionId && sessions[sessionId]) {
+    usernameValue = sessions[sessionId].username;
+  }
+
+  const client = new MongoClient(config.mongoUri);
+
+  await client.connect();
+  const db = client.db("infs3201_winter2026");
+
+  await db.collection("security_log").insertOne({
+    timestamp: new Date(),
+    username: usernameValue,
+    url: req.originalUrl,
+    method: req.method
+  });
+
+  await client.close();
+
+  next();
+}
+
+/**
  * Protect routes using session cookie
  */
 function authMiddleware(req, res, next) {
@@ -106,6 +138,7 @@ function authMiddleware(req, res, next) {
   next();
 }
 
+app.use(securityLogMiddleware);
 app.use(authMiddleware);
 
 /**
