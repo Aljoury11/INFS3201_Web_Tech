@@ -1,18 +1,9 @@
-# INFS3201 Assignment 3
+# INFS3201 Assignment 4
 
-Employee Scheduling Web Application
+## Test Users
 
-## Technologies
+Username: admin1
+Password: admin123
 
-- ExpressJS
-- Handlebars
-- MongoDB
-
-## Database
-
-Database name: infs3201_winter2026
-
-## How to run
-
-npm install
-npm start
+Username: staff1
+Password: staff123
