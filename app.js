@@ -11,6 +11,9 @@ const config = require("./config.json");
 
 const app = express();
 
+const SESSION_LENGTH = 5 * 60 * 1000;
+const sessions = {};
+
 app.engine(
   "hbs",
   hbs.engine({
@@ -26,6 +29,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 /**
+ * Create a new session id
+ * @returns {string}
+ */
+function createSessionId() {
+  return crypto.randomBytes(32).toString("hex");
+}
+
+/**
  * GET /login
  * Show login page
  */
@@ -38,7 +49,6 @@ app.get("/login", function (req, res) {
  * Validate username and password
  */
 app.post("/login", async function (req, res) {
-
   let usernameValue = req.body.username;
   let passwordValue = req.body.password;
 
@@ -71,7 +81,18 @@ app.post("/login", async function (req, res) {
     return;
   }
 
-  // login successful
+  const sessionId = createSessionId();
+
+  sessions[sessionId] = {
+    username: usernameValue,
+    expiresAt: Date.now() + SESSION_LENGTH
+  };
+
+  res.cookie("sessionId", sessionId, {
+    httpOnly: true,
+    expires: new Date(Date.now() + SESSION_LENGTH)
+  });
+
   res.redirect("/");
 });
 
@@ -89,11 +110,9 @@ app.get("/", async function (req, res) {
  * Details page: employee info + sorted shifts.
  */
 app.get("/employees/:id", async function (req, res) {
-
   const employeeId = req.params.id;
 
   const emp = await service.getEmployee(employeeId);
-
   if (emp === undefined || emp === null) {
     res.status(404).send("Employee not found");
     return;
@@ -102,7 +121,6 @@ app.get("/employees/:id", async function (req, res) {
   const shifts = await service.getScheduleForEmployeeSorted(employeeId);
 
   let i = 0;
-
   while (i < shifts.length) {
     const start = String(shifts[i].startTime);
     shifts[i].isMorning = start < "12:00";
@@ -114,13 +132,12 @@ app.get("/employees/:id", async function (req, res) {
 
 /**
  * GET /employees/:id/edit
+ * Show edit form (pre-filled).
  */
 app.get("/employees/:id/edit", async function (req, res) {
-
   const employeeId = req.params.id;
 
   const emp = await service.getEmployee(employeeId);
-
   if (!emp) {
     res.status(404).send("Employee not found");
     return;
@@ -131,9 +148,9 @@ app.get("/employees/:id/edit", async function (req, res) {
 
 /**
  * POST /employees/:id/edit
+ * Validate + update, then redirect (PRG).
  */
 app.post("/employees/:id/edit", async function (req, res) {
-
   const employeeId = req.params.id;
 
   let nameValue = req.body.name;
@@ -156,7 +173,6 @@ app.post("/employees/:id/edit", async function (req, res) {
   }
 
   const phonePattern = /^[0-9]{4}-[0-9]{4}$/;
-
   if (!phonePattern.test(phoneValue)) {
     res.send("Validation failed: Phone must be 4 digits, a dash, then 4 digits");
     return;
