@@ -37,6 +37,78 @@ function createSessionId() {
 }
 
 /**
+ * Read cookies from request header
+ * @param {any} req
+ * @returns {Object}
+ */
+function readCookies(req) {
+  const result = {};
+  const cookieHeader = req.headers.cookie;
+
+  if (!cookieHeader) {
+    return result;
+  }
+
+  const parts = cookieHeader.split(";");
+  let i = 0;
+
+  while (i < parts.length) {
+    const onePart = parts[i].trim();
+    const equalIndex = onePart.indexOf("=");
+
+    if (equalIndex > 0) {
+      const key = onePart.substring(0, equalIndex);
+      const value = onePart.substring(equalIndex + 1);
+      result[key] = value;
+    }
+
+    i++;
+  }
+
+  return result;
+}
+
+/**
+ * Protect routes using session cookie
+ */
+function authMiddleware(req, res, next) {
+  if (req.path === "/login" || req.path === "/logout") {
+    next();
+    return;
+  }
+
+  const cookies = readCookies(req);
+  const sessionId = cookies.sessionId;
+
+  if (!sessionId || !sessions[sessionId]) {
+    res.render("login", { message: "Please login first" });
+    return;
+  }
+
+  const session = sessions[sessionId];
+
+  if (Date.now() > session.expiresAt) {
+    delete sessions[sessionId];
+    res.clearCookie("sessionId");
+    res.render("login", { message: "Session expired. Please login again" });
+    return;
+  }
+
+  session.expiresAt = Date.now() + SESSION_LENGTH;
+
+  res.cookie("sessionId", sessionId, {
+    httpOnly: true,
+    expires: new Date(Date.now() + SESSION_LENGTH)
+  });
+
+  req.username = session.username;
+
+  next();
+}
+
+app.use(authMiddleware);
+
+/**
  * GET /login
  * Show login page
  */
