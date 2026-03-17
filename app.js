@@ -169,6 +169,22 @@ app.post("/login", async function (req, res) {
 });
 
 /**
+ * GET /logout
+ * Clear cookie and delete session
+ */
+app.get("/logout", function (req, res) {
+  const cookies = readCookies(req);
+  const sessionId = cookies.sessionId;
+
+  if (sessionId && sessions[sessionId]) {
+    delete sessions[sessionId];
+  }
+
+  res.clearCookie("sessionId");
+  res.redirect("/login");
+});
+
+/**
  * GET /
  * Home page: show employees list.
  */
